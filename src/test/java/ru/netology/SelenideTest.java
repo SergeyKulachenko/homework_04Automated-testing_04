@@ -1,11 +1,19 @@
 package ru.netology;
 
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.commands.Click;
+import com.codeborne.selenide.commands.DoubleClick;
+import com.codeborne.selenide.impl.SelenideElementListProxy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
@@ -20,12 +28,12 @@ public class SelenideTest {
     @Test
     void getTrueInputValidForm() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -36,12 +44,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenEmptyFieldCity() {
         $("[placeholder=Город]").setValue("");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -53,12 +61,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectCity() {
         $("[placeholder=Город]").setValue("Сочи");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -71,7 +79,7 @@ public class SelenideTest {
     void errorExpectedWhenEmptyFieldDate() {
         $("[placeholder=Город]").setValue("Краснодар");
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']").$("[placeholder]").setValue("");
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
@@ -84,12 +92,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectDate() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 2 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(1).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -101,12 +109,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenEmptyFieldName() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -118,12 +126,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectNameNoRu() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Nik");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -135,12 +143,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectNameNoAsPasport() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Сергей");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -152,12 +160,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenEmptyFieldTel() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("");
         $("[class=checkbox__box]").click();
@@ -169,12 +177,12 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectTel() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+7 9882253345");
         $("[class=checkbox__box]").click();
@@ -187,17 +195,16 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenUncheckedCheckbox() {
         $("[placeholder=Город]").setValue("Краснодар");
-        long dateNowPlus4Days = System.currentTimeMillis() + 4 * 86400000;
-        SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
-        String dateNowPlus4DaysStr = formatForDate.format(dateNowPlus4Days);
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
         SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
-        data.$("[value]").sendKeys("\b\b\b\b\b\b\b\b");
-        data.$("[placeholder]").setValue(dateNowPlus4DaysStr);
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882253345");
         $$("[class=button__text]").find(exactText("Забронировать")).click();
         $("[class='checkbox checkbox_size_m checkbox_theme_alfa-on-white input_invalid'] .checkbox__text").shouldHave
                 (exactTextCaseSensitive("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
     }
-
 }
