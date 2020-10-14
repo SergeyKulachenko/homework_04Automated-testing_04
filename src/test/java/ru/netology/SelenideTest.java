@@ -1,19 +1,13 @@
 package ru.netology;
 
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.commands.Click;
-import com.codeborne.selenide.commands.DoubleClick;
-import com.codeborne.selenide.impl.SelenideElementListProxy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
@@ -26,12 +20,12 @@ public class SelenideTest {
     }
 
     @Test
-    void getTrueInputValidForm() {
+    void getTrueInputValidFormV1() {
         $("[placeholder=Город]").setValue("Краснодар");
         LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd.MM.uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
@@ -39,6 +33,24 @@ public class SelenideTest {
         $("[class=checkbox__box]").click();
         $$("[class=button__text]").find(exactText("Забронировать")).click();
         $(withText("Встреча успешно забронирована на")).waitUntil(visible, 15000);
+        $(withText(inputDate)).shouldHave(visible);
+    }
+
+    @Test
+    void getTrueInputValidFormV2() throws InterruptedException {
+        $("[placeholder=Город]").setValue("Краснодар");
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd.MM.uuuu");
+        String inputDate = localDate.plusDays(4).format(fOut);
+        SelenideElement data = $("[data-test-id=date]");
+        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
+        data.$("[placeholder]").setValue(inputDate);
+        $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
+        $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
+        $("[class=checkbox__box]").click();
+        $$("[class=button__text]").find(exactText("Забронировать")).click();
+        Thread.sleep(15000);
+        $("[class=notification__content]").shouldHave(exactTextCaseSensitive("Встреча успешно забронирована на 19.10.2020"));
     }
 
     @Test
@@ -47,14 +59,14 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
         $$("[class=button__text]").find(exactText("Забронировать")).click();
-        $("[class='form-field form-field_size_m form-field_theme_alfa-on-white'] .input__sub").shouldHave
+        $("[data-test-id=city] .input__sub").shouldHave
                 (exactTextCaseSensitive("Поле обязательно для заполнения"));
     }
 
@@ -64,23 +76,23 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
         $$("[class=button__text]").find(exactText("Забронировать")).click();
-        $("[class='form-field form-field_size_m form-field_theme_alfa-on-white'] .input__sub").shouldHave
+        $("[data-test-id=city] .input__sub").shouldHave
                 (exactTextCaseSensitive("Доставка в выбранный город недоступна"));
     }
 
     @Test
     void errorExpectedWhenEmptyFieldDate() {
         $("[placeholder=Город]").setValue("Краснодар");
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']").$("[placeholder]").setValue("");
+        $("[data-test-id=date]").$("[placeholder]").setValue("");
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
@@ -95,7 +107,7 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(1).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
@@ -112,7 +124,7 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("");
@@ -129,7 +141,7 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Nik");
@@ -146,7 +158,7 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Сергей");
@@ -163,7 +175,7 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
@@ -180,7 +192,7 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
@@ -198,13 +210,13 @@ public class SelenideTest {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         String inputDate = localDate.plusDays(4).format(fOut);
-        SelenideElement data = $("[class='calendar-input calendar-input_width_available calendar-input_theme_alfa-on-white']");
+        SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
         $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882253345");
         $$("[class=button__text]").find(exactText("Забронировать")).click();
-        $("[class='checkbox checkbox_size_m checkbox_theme_alfa-on-white input_invalid'] .checkbox__text").shouldHave
+        $("[data-test-id=agreement] .checkbox__text").shouldHave
                 (exactTextCaseSensitive("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
     }
 }
