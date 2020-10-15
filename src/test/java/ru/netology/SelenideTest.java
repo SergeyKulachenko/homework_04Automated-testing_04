@@ -50,7 +50,7 @@ public class SelenideTest {
         $("[class=checkbox__box]").click();
         $$("[class=button__text]").find(exactText("Забронировать")).click();
         Thread.sleep(15000);
-        $("[class=notification__content]").shouldHave(exactTextCaseSensitive("Встреча успешно забронирована на 19.10.2020"));
+        $("[class=notification__content]").shouldHave(exactTextCaseSensitive("Встреча успешно забронирована на " + inputDate));
     }
 
     @Test
