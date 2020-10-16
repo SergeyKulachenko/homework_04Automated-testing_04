@@ -20,22 +20,7 @@ public class SelenideTest {
     }
 
     @Test
-    void getTrueInputValidFormV1() {
-        $("[placeholder=Город]").setValue("Краснодар");
-        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
-        SelenideElement data = $("[data-test-id=date]");
-        data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
-        data.$("[placeholder]").setValue(inputDate);
-        $("[data-test-id=name].input_type_text .input__control").setValue("Васильев Иван");
-        $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
-        $("[class=checkbox__box]").click();
-        $$("[class=button__text]").find(exactText("Забронировать")).click();
-        $(withText("Встреча успешно забронирована на")).waitUntil(visible, 15000);
-        $(withText(inputDate)).shouldHave(visible);
-    }
-
-    @Test
-    void getTrueInputValidFormV2() throws InterruptedException {
+    void getTrueInputValidForm() throws InterruptedException {
         $("[placeholder=Город]").setValue("Краснодар");
         String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
@@ -47,7 +32,7 @@ public class SelenideTest {
         $$("[class=button__text]").find(exactText("Забронировать")).click();
         $("[class=notification__content]").waitUntil(visible, 15000)
                 .shouldHave(exactTextCaseSensitive("Встреча успешно забронирована на " + inputDate));
- }
+    }
 
     @Test
     void errorExpectedWhenEmptyFieldCity() {
