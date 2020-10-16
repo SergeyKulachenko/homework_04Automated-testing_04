@@ -22,9 +22,7 @@ public class SelenideTest {
     @Test
     void getTrueInputValidFormV1() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd.MM.uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -39,9 +37,7 @@ public class SelenideTest {
     @Test
     void getTrueInputValidFormV2() throws InterruptedException {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd.MM.uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -49,16 +45,14 @@ public class SelenideTest {
         $("[data-test-id=phone]").$("[name=phone]").setValue("+79882223345");
         $("[class=checkbox__box]").click();
         $$("[class=button__text]").find(exactText("Забронировать")).click();
-        Thread.sleep(15000);
-        $("[class=notification__content]").shouldHave(exactTextCaseSensitive("Встреча успешно забронирована на " + inputDate));
-    }
+        $("[class=notification__content]").waitUntil(visible, 15000)
+                .shouldHave(exactTextCaseSensitive("Встреча успешно забронирована на " + inputDate));
+ }
 
     @Test
     void errorExpectedWhenEmptyFieldCity() {
         $("[placeholder=Город]").setValue("");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -73,9 +67,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectCity() {
         $("[placeholder=Город]").setValue("Сочи");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -104,9 +96,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectDate() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(1).format(fOut);
+        String inputDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -121,9 +111,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenEmptyFieldName() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -138,9 +126,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectNameNoRu() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -155,9 +141,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectNameNoAsPasport() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -172,9 +156,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenEmptyFieldTel() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -189,9 +171,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenInputIncorrectTel() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
@@ -207,9 +187,7 @@ public class SelenideTest {
     @Test
     void errorExpectedWhenUncheckedCheckbox() {
         $("[placeholder=Город]").setValue("Краснодар");
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter fOut = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String inputDate = localDate.plusDays(4).format(fOut);
+        String inputDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         SelenideElement data = $("[data-test-id=date]");
         data.$("[value]").doubleClick().sendKeys(Keys.BACK_SPACE);
         data.$("[placeholder]").setValue(inputDate);
